@@ -5,6 +5,8 @@ import { LoginUser } from '../../API/users';
 import {Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { message } from 'antd';
+import { CurrentUsers } from '../../API/users';
 function Login() {
 
     const navigate = useNavigate();
@@ -15,15 +17,22 @@ function Login() {
             localStorage.setItem('token',response.token)
             window.location.href ='/';
             console.log(response);
+            message.success("User Logged In")
         }else{
             console.log(response.message)
+            message.error(response.message);
         }
     }
 
     useEffect(()=>{
-       if(localStorage.getItem('token')){
+        const checkLogin = async()=>{
+        const response = await CurrentUsers();
+            const log = response.success
+       if(localStorage.getItem('token') && log){
         navigate("/");
        }
+    }
+    checkLogin();
     },[])
 
     return (

@@ -27,12 +27,13 @@ export const RegisterUser = async(values)=>{
 export const CurrentUsers = async()=>{
     try {
  
-        const response = await axiosInstance.get('api/users/get-current-user')
+        const response = await axiosInstance.get('/api/users/get-current-user')
         return response.data;
 
     } catch (error) {
-        console.log(error);
-        return error;
+        console.log("error.response.data");
+        console.log(error.response.data);
+        return error.response.data;
         
     }
 }
